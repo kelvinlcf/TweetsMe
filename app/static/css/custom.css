@@ -1,0 +1,85 @@
+html.ios {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+html.ios,
+html.ios body {
+  height: initial !important;
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Arvo|Droid+Sans|Josefin+Slab|Lato|Old+Standard+TT|Open+Sans|PT+Sans|PT+Serif|Ubuntu|Vollkorn');
+
+
+input:focus {
+	outline: none;
+}
+
+
+
+/* custom */
+
+
+body {
+  background-color: #F8F8F8;
+}
+
+.mainContent {
+  padding-top:70px;
+}
+
+.userProfileFix {
+  padding-top:15px;
+}
+
+
+
+.appName {
+  font-size: 15px;
+  color: white;
+  padding:15px;
+  position: fixed;
+  bottom: 0;
+  left: 4em;
+  z-index:9999;
+  font-family: 'Lato';
+}
+
+.noNewsFeedText {
+  font-size: 15px;
+  color: grey ;
+
+}
+
+
+.welcomeTag {
+	font-size: 14px;
+	padding-right:13px;
+}
+
+.tweetMessage {
+	font-size: 16px;
+  word-wrap: break-word;
+}
+
+
+.emoji-wysiwyg-editor {
+  height:100px;
+}
+
+.emoji-picker-icon{
+  right: 5px;
+  top: 30px;
+}
+
+.feelingMessage {
+  color: grey;
+}
+
+
+.emoji-wysiwyg-editor {
+  white-space: nowrap;
+}
+
+
+

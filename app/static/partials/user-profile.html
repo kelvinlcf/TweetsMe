@@ -1,0 +1,200 @@
+
+<div class="ui container mainContent">
+  <div class="ui grid">
+    <div class="six wide column">
+    </div>
+
+    <div class="ten wide column">
+      <div class="ui left very close rail">
+        <div class="ui sticky userProfileFix" id="stickyUserProfile">
+          <div class="ui card">
+            <div class="image">
+              <img src="{{ profile.picture_url }}">
+            </div>
+            <div class="content">
+            <a class="header">{{ profile.name }}</a>
+              <div class="meta">
+                <span class="date">{{ profile.email }}</span>
+              </div>
+              <div class="description"></div>
+            </div>
+            <div class="extra content">
+              <a ng-click="triggerFollowingModal()">
+                <i class="users icon"></i>
+                {{ profile.following.length }} Following
+              </a>
+            </div>
+            <div class="extra content">
+              <a ng-click="triggerFollowersModal()">
+                <i class="users icon"></i>
+                {{ profile.followers.length }} Followers
+              </a>
+            </div>
+            <button class="ui primary button" id="userProfileFollowButton"
+              ng-click="triggerFollowButton()" ng-if="(profile.id != myProfile.id) && (myProfile.following.indexOf(profile.id) == -1)">
+              Follow
+            </button>
+            <button class="ui button" id="userProfileFollowButton" ng-click="triggerUnfollowButton()" ng-if="(profile.id != myProfile.id) && (myProfile.following.indexOf(profile.id) != -1)">
+              Following
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="allTweets">
+        <div infinite-scroll="loadMoreTweets()" infinite-scroll-distance="1"  id="userProfilePageTweetsInfiniteScroll" infinite-scroll-use-document-bottom='true' infinite-scroll-disabled='allTweetsBusyLoadingData'>
+          
+          <div class="ui card fluid" ng-repeat="tweet in tweets | orderBy:'-timestamp'"" ng-class="tweet.color">
+            <div class="ui inverted dimmer" id="tweetPostLoader_{{ tweet.tweet_id }}"">
+              <div class="ui text loader">Loading</div>
+            </div>
+            <div class="content">
+              <div class="right floated meta">{{tweet.timestamp * 1000 | timeAgo}}</div>
+              <img class="ui avatar image" ng-src="{{ profile.picture_url }}">
+              {{ profile.name }}
+            </div>
+            <div class="image">
+              <img class="ui image" ng-src="{{ apiBaseUrl }}/media/image/{{ tweet.image_id }}">
+            </div>
+            <div class="content" ng-if="tweet.message != ''">
+              <div class="description">
+                <p class="tweetMessage" ng-style="{'font-family': tweet.font == '' ? 'Lato': tweet.font}" >
+                  {{ tweet.message }}
+                  <small class="feelingMessage description" ng-if="tweet.color"> - feeling {{ getMoodDescription(tweet.color) }}</small>
+                </p>
+              </div>
+            </div>
+
+            <div class="content" ng-if="tweet.color && tweet.message == ''"">
+              <small class="feelingMessage description">
+                feeling {{ getMoodDescription(tweet.color) }}
+              </small>
+            </div>
+
+            <div class="content">
+              <span class="right floated">
+                <a class="ui label" ng-class="{'disabled': tweet.likes.indexOf(myProfile.id) != -1 }" ng-click="triggerLikeTweet(tweet.tweet_id, tweet.likes.indexOf(myProfile.id) == -1)" id="tweetLikeTag_{{ tweet.tweet_id }}">
+                  <i class="heart icon"></i>
+                  {{ tweet.likes.length }} likes
+                </a>
+              </span>
+  <!--             <a class="ui label" ng-click="triggerEditTweet(tweet.tweet_id)" id="tweetEditBtn_{{ tweet.tweet_id }}">
+                <i class="write icon"></i>
+                edit
+              </a> -->
+              <a class="ui label" ng-click="triggerDeleteTweet(tweet.tweet_id)"
+                ng-if="tweet.user_id == myProfile.id">
+                <i class="trash icon"></i>
+                delete
+              </a>
+            </div>
+            <!-- <div class="extra content">
+              <div class="ui large transparent left icon input">
+                <i class="heart outline icon"></i>
+                <input type="text" placeholder="Add Comment...">
+              </div>
+            </div> -->
+          </div>
+
+          <div class="ui centered inline loader" id="userProfileTweetsLoadingIndicator"></div>
+
+
+        </div>
+
+
+        <div class="ui container" ng-if="tweets.length == 0">
+          <div class="ui two column centered grid">
+            <div class="column text center aligned noNewsFeedText">
+              No tweet yet.
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="ui small modal" id='followingModal'>
+  <div class="ui active inverted dimmer" ng-if='following == null'>
+    <div class="ui text loader">{{ followingLoaderMessage }}</div>
+  </div>
+  <i class="close icon"></i>
+  <div class="header">
+    {{ profile.given_name }} is following
+  </div>
+  <div class="content">
+    <div class="description" ng-if="following.length == 0">
+      No following at the moment
+    </div>
+    <div class="ui cards" ng-if="following.length > 0">
+      <a class="card" ng-repeat="followingUser in following"  ng-click="selectFollowingUser(followingUser.user_id)">
+        <div class="content">
+          <div class="header">
+            <img class="right floated mini ui image" ng-src="{{ followingUser.picture_url }}">
+            {{ followingUser.name }}
+          </div>
+          <div class="description">
+            {{ followingUser.email }}
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal" id='followersModal'>
+  <div class="ui active inverted dimmer" ng-if='followers == null'>
+    <div class="ui text loader">{{ followersLoaderMessage }}</div>
+  </div>
+  <i class="close icon"></i>
+  <div class="header">
+    {{ profile.given_name }}'s followers
+  </div>
+  <div class="content">
+    <div class="description" ng-if="followers.length == 0">
+      No followers at the moment
+    </div>
+    <div class="ui cards" ng-if="followers.length > 0">
+      <a class="card" ng-repeat="follower in followers">
+        <div class="content" ng-click="selectFollower(follower.user_id)">
+          <div class="header">
+            <img class="right floated mini ui image" ng-src="{{ follower.picture_url }}">
+            {{ follower.name }}
+          </div>
+          <div class="description">
+            {{ follower.email }}
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="ui small basic modal" id='deleteConfirmationModal'>
+    <div class="ui icon header">
+      <i class="trash icon"></i>
+      Delete tweet
+    </div>
+    <div class="content center">
+      <div class="ui center aligned container">
+        <p>Are you sure you want to delete this tweet?</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui red basic cancel inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <div class="ui green ok inverted button">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    </div>  
+  </div>
+</div>
+
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>TweetsMe</title>
+
+    <!-- favicon -->
+    <link rel="shortcur icon" type="image/png" href="/static/img/logo.png"/>
+
+
+    <link rel="stylesheet" type="text/css" href="/static/semantic-ui/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="/static/semantic-ui/semantic.min.js"></script>
+
+
+    <script src="https://code.angularjs.org/latest/angular.min.js"></script>
+    <script src="https://code.angularjs.org/latest/angular-route.min.js"></script>
+    <script src="/static/js/app.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-app="myApp">
+
+
+    <div class="ui wide sidebar left vertical borderless menu" id="sidebar" ng-controller="sidebarCntlr">
+      <!-- content of sidebar here -->
+      <div class="item">
+        <div>Tweets Me</div>
+      </div>
+      <div class="item">
+        <div class="ui icon input">
+          <input type="text" ng-model="searchKeywords" ng-model-options="{ debounce: 200 }" placeholder="Search ...">
+          <i class="search icon"></i>
+        </div>
+      </div>
+      <div ng-if="searchResult.length > 0">
+        <div ng-repeat="result in searchResult">
+          <div class="item">
+            {{result.name}}
+          </div>
+        </div>
+      </div>
+      <div ng-if="searchResult.length <= 0 && !searchLoading" class="item">
+        No results found.
+      </div>
+      <div class="item" ng-if="searchLoading && searchResult.length <= 0">
+        Loading results...
+      </div>
+
+    </div>
+
+
+
+    <div class="pusher dimmed">
+      <!-- Site content here -->
+
+      <div class="ui fixed borderless large text menu" ng-controller="sidebarCntlr">
+        <div class="ui container">
+          <div class="item">
+            <i class="fa fa-bars" aria-hidden="true" id="sidebar-toggle-btn" ng-click="toggleSidebar()" style="font-size:1.4em;"></i>
+          </div>
+          <a href="#" class="header item">
+            <!-- <img class="logo" src="assets/images/logo.png"> -->
+            TweetsMe
+          </a>
+          <!-- <a href="#" class="item">Home</a> -->
+        </div>
+      </div>
+      
+      <!-- <div ng-view></div> -->
+
+    </div>
+    
+    <!-- <img src="http://localhost:5000/get_image/9314952d-2808-467a-962e-b321d0fa7f8c"> -->
+
+
+
+
+  </body>
+</html>

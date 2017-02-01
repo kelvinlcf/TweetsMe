@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp"  ng-controller="appCntlr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title ng-if="!myProfile.name">TweetsMe</title>
+  <title ng-if="myProfile.name">TweetsMe - {{ myProfile.name }}</title>
+
+  <!-- favicon -->
+  <link rel="shortcur icon" type="image/png" href="/static/img/logo.png" />
+
+
+  <link rel="stylesheet" type="text/css" href="/static/semantic-ui/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+
+  <!-- for emoji picker -->
+  <link rel="stylesheet" type="text/css" href="/static/lib/emoji-picker/css/nanoscroller.css" >
+  <link rel="stylesheet" type="text/css" href="/static/lib/emoji-picker/css/emoji.css">
+  
+
+  <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+
+
+
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="/static/semantic-ui/semantic.min.js"></script>
+
+
+  <script src="https://code.angularjs.org/latest/angular.min.js"></script>
+  <script src="https://code.angularjs.org/latest/angular-route.min.js"></script>
+  <script src="https://code.angularjs.org/latest/angular-animate.min.js"></script>
+  <script src="/static/js/angular-timeago.min.js"></script>
+  <script src="/static/js/ng-infinite-scroll.min.js"></script>
+
+
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+  <!-- Begin emoji-picker JavaScript -->
+  <script src="/static/lib/emoji-picker/js/nanoscroller.min.js"></script>
+  <script src="/static/lib/emoji-picker/js/tether.min.js"></script>
+  <script src="/static/lib/emoji-picker/js/config.js"></script>
+  <script src="/static/lib/emoji-picker/js/util.js"></script>
+  <script src="/static/lib/emoji-picker/js/jquery.emojiarea.js"></script>
+  <script src="/static/lib/emoji-picker/js/emoji-picker.js"></script>
+  <!-- End emoji-picker JavaScript -->
+
+  <script src="/static/js/app.js"></script>
+
+
+
+
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body>
+
+  <div ng-if="isLogin">
+    <div class="ui menu huge fixed borderless" ng-controller="menuCntlr" ng-model="profile">
+      <div class="ui container">
+        <div class="item">
+          <div class="ui icon button primary basic" data-tooltip="New Tweet" data-position="bottom left" data-inverted="" ng-click="toggleNewTweetModal()">
+              <i class="icon send"></i>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ui icon button basic" data-tooltip="Refresh" data-position="bottom left" data-inverted="" ng-click="toggleRefreshButton()">
+              <i class="icon refresh"></i>
+          </div>
+        </div>
+        <div class="item">
+          <a class="ui icon button orange basic" data-tooltip="Home" data-position="bottom left" data-inverted="" data-variation="mini" ng-href="/#/">
+              <i class="icon home"></i>
+          </a>
+        </div>
+        <div class="right menu">
+          <div class="ui search item"  id="userSearchConsole">
+            <div class="ui icon input small">
+              <input class="prompt" type="text" placeholder="Search ..." ng-model="searchKeywords" ng-model-options="{ debounce: 200 }">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+          </div>
+          <div class="ui item labeled">
+            <div class="welcomeTag">
+              Welcome, {{ myProfile.given_name }}
+            </div>
+            <a class="ui icon button teal basic" data-tooltip="Your profile" data-position="bottom right" data-inverted="" ng-href="#/user/{{ myProfile.id }}/profile">
+              <i class="icon user"></i>
+            </a>
+          </div>
+          <div class="item">
+            <a class="ui icon button olive basic" data-tooltip="Logout" data-position="bottom right" data-inverted="" ng-click="triggerLogout()">
+              <i class="icon power"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Main content of the page -->
+    <div class="pusher">
+      <div ng-view></div>
+    </div>
+
+
+
+
+    <div ng-controller="newTweetModalCntlr">
+      <!-- Modal for new tweet -->
+      <div class="ui modal" id="newTweetModal">
+        <i class="close icon"></i>
+        <div class="header">
+          New tweet
+        </div>
+
+        <div class="content">
+          <form class="ui form" id="newTweetForm">
+            <div class="field">
+              <label>Message</label>
+              <div ng-style="{'font-family':fontSelection}" id="newTweetMessageArea" ng-keyup="charCounterAreaKeyup()">
+                <textarea name="message" id="newTweetTextArea"  data-emojiable="true" data-emoji-input="unicode" style='font-family: inherit' autofocus maxlength="{{maxNewTweetMessageCharacters}}" ng-model="newTweetTextAreaContent"></textarea>
+                <!-- <input type="text" name="message" id="newTweetTextArea" data-emojiable="true" style="height:100px;"> -->
+                <div class="ui error message">
+                  <p>You cannot post empty message.</p>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class='tiny ui right aligned basic segment'>
+                <div class="charCounterDisplay"></div>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="four wide field">
+                <div class="ui floating small dropdown labeled search icon button" id="fontSelectionDropdown">
+                  <i class="font icon"></i>
+                  <span class="text">Select Font</span>
+                  <div class="menu">
+                    <div class="item" ng-repeat="font in googleFonts" ng-click="selectNewTweetFont(font)">{{ font }}</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="four wide field">
+                <div class="ui floating small dropdown labeled search icon button" id="colorSelectionDropdown">
+                  <i class="smile icon"></i>
+                  <span class="text">Select Mood</span>
+                  <div class="menu">
+                    <div class="item" ng-repeat="mood in availableMoods" data-value="{{ mood.color }}">
+                      <div class="ui empty circular label" ng-class="mood.color"></div>
+                      {{ mood.description }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="eight wide field">
+                <div>
+                  <label for="newTweetFile" class="ui labeled icon button">
+                    <i class="image icon"></i>
+                    &nbsp;{{ newTweet.file.name || 'No Image'}}
+                  </label>
+                  <input name="tweetImageFile" type="file" id="newTweetFile" style="display:none" custom-on-change="uploadFile">
+                </div>
+              </div>
+            </div>
+
+            <div class="ui items">
+              <div class="item">
+                <div class="content">
+                  <div class="ui positive labeled icon button right floated" ng-click="makeNewTweet()">
+                    <i class="send icon"></i>
+                    Post
+                  </div>
+                  <div class="ui clear black deny button right floated" ng-click="clearNewTweetForm()">
+                    Clear
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+        <!-- Modal for new tweet error message -->
+      <div class="ui basic modal" id="newTweetErrorModal" ng-if="newTweetErrorMessage !== undefined">
+        <div class="ui icon header">
+          <i class="meh icon"></i>
+          There seems to be an error with your tweet.
+        </div>
+        <div class="content">
+          <div class="ui center aligned container">
+            {{ newTweetErrorMessage }}
+          </div>
+        </div>
+        <div class="actions">
+          <!-- <div class="ui red basic cancel inverted button">
+            <i class="remove icon"></i>
+            No
+          </div> -->
+          <div class="ui green ok inverted button">
+            <!-- <i class="checkmark icon"></i> -->
+            I understand
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--   <div class="appName" ng-if=!isLogin>
+    Tweets Me
+  </div> -->
+
+  <div ng-controller="loginCntlr">
+    <div class="ui modal basic" id="signinModal">
+
+      <div class="content">
+        <!-- <div class="ui text loader" id="loginLoader">Loading</div> -->
+        <div class="ui center aligned container">
+          <div class="image" >
+            <img src="/static/img/logo.png" style="max-width:150px; outline: none;" >
+          </div>
+          <div class="image">
+            <a href="/oAuth2Callback" ng-click="triggerLoginBtn()">
+              <input type="image" style="max-width:200px;" src="/static/img/btn_google_signin_light_normal_web@2x.png" />
+            </a>
+          </div>
+          <div class="ui indeterminate text loader" ng-if="isLoggingIn">Securely logging you in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

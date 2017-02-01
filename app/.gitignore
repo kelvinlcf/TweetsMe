@@ -1,0 +1,13 @@
+logger.log
+client_secret_*.json
+ssl.key
+ssl.crt
+env
+dump.rdb
+*.swp
+*.pyc
+*.sock
+credentials.py
+*/htmlcov/
+.cache
+.coverage

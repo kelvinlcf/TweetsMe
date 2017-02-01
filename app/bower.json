@@ -1,0 +1,21 @@
+{
+  "name": "tweetsme",
+  "homepage": "https://github.com/kelvinlcf/TweetsMe",
+  "authors": [
+    "Kelvin Li <kelvin.li@hde.co.jp>"
+  ],
+  "description": "",
+  "main": "main.py",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-timeago": "^0.4.4"
+  }
+}

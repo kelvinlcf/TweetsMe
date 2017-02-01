@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="refresh" content="5;url=/" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>TweetsMe</title>
+
+  <!-- favicon -->
+  <link rel="shortcur icon" type="image/png" href="/static/img/logo.png" />
+
+
+  <link rel="stylesheet" type="text/css" href="/static/semantic-ui/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="/static/semantic-ui/semantic.min.js"></script>
+
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body>
+<div class="ui modal basic" id="signinModal">
+  <div class="content">
+    <div class="ui center aligned container">
+      <div class="image" >
+        <img src="/static/img/logo.png" style="max-width:150px; " >
+      </div>
+      <div class="loginAppName">
+        Sorry, you do not have permission to login.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#signinModal').modal('show');
+</script>
+
+</body>
+
+</html>

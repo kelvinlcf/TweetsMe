@@ -1,0 +1,10 @@
+.DS_Store
+.ropeproject
+*.swp
+*.pyc
+/env/
+dump.rdb
+logger.log
+app/bower_components/*
+/redis
+Icon

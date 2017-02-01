@@ -1,0 +1,45 @@
+[
+  {
+    "color": "red",
+    "description": "Energetic"
+  },{
+    "color": "orange",
+    "description": "Success"
+  },{
+    "color": "yellow",
+    "description": "Optimistic"
+  },{
+    "color": "olive",
+    "description": "Relax"
+  },{
+    "color": "green",
+    "description": "Fresh"
+  },{
+    "color": "teal",
+    "description": "Healed"
+  },{
+    "color": "blue",
+    "description": "Peaceful"
+  },{
+    "color": "violet",
+    "description": "Luxury"
+  },{
+    "color": "purple",
+    "description": "Calm"
+  },{
+    "color": "pink",
+    "description": "Sweet"
+  },{
+    "color": "brown",
+    "description": "Friendly"
+  },{
+    "color": "grey",
+    "description": "Glamorous"
+  },{
+    "color": "black",
+    "description": "Dramatic"
+  }
+]
+
+
+

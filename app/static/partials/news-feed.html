@@ -1,0 +1,61 @@
+<div class="ui container mainContent">
+  <div class="ui centered stackable grid">
+    <div class="thirteen wide column">
+      <div class="ui text center aligned">
+        
+        <div infinite-scroll="loadMoreTweets()" infinite-scroll-distance="1"  id="newsFeedPageTweetsInfiniteScroll" infinite-scroll-use-document-bottom='true' infinite-scroll-disabled='tweetsBusyLoadingData'>
+          <div class="ui card fluid" ng-class="tweet.color" ng-repeat="tweet in tweets | orderBy:'-timestamp'"">
+            <div class="content">
+              <div class="right floated meta">{{tweet.timestamp * 1000 | timeAgo}}</div>
+              <a class="left floated" ng-href="/#/user/{{ tweet.user_id }}/profile">
+                <img class="ui avatar image" ng-src="{{ tweet.user_picture_url }}">
+                {{ tweet.user_name }}
+              </a>
+            </div>
+            <div class="ui">
+              <img class="ui centered image" ng-src="{{ apiBaseUrl }}/media/image/{{ tweet.image_id }}" style="max-height:600px">
+            </div>
+            <div class="content">
+              <div class="content" ng-if="tweet.message != ''">
+                <div class="description">
+                  <p class="tweetMessage" ng-style="{'font-family': tweet.font == '' ? 'Lato': tweet.font}" >
+                    {{ tweet.message }}
+                    <small class="feelingMessage description" ng-if="tweet.color"> - feeling {{ getMoodDescription(tweet.color) }}</small>
+                  </p>
+                </div>
+              </div>
+
+
+              <span class="right floated">
+                <a class="ui label" ng-class="{'disabled': tweet.likes.indexOf(myProfile.id) != -1 }" ng-click="triggerLikeTweet(tweet.tweet_id, tweet.likes.indexOf(myProfile.id) == -1)" id="tweetLikeTag_{{ tweet.tweet_id }}">
+                  <i class="heart icon"></i>
+                  {{ tweet.likes.length }} likes
+                </a>
+              </span>
+
+              <div class="content" ng-if="tweet.color && tweet.message == ''"">
+                <small class="feelingMessage description">
+                  feeling {{ getMoodDescription(tweet.color) }}
+                </small>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="ui container" ng-if="tweets.length == 0">
+            <div class="ui two column centered grid">
+              <div class="column text center aligned noNewsFeedText">
+                No news feed.
+              </div>
+            </div>
+          </div>
+
+          <div class="ui centered inline loader" id="newsFeedTweetsLoadingIndicator"></div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
