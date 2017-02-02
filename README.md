@@ -50,16 +50,16 @@ A twitter clone project
 
 
 ## When deploy to AWS
-* [ ]At s3Handler, change ```boto3.client``` to ```boto3.client``` with credentials field
-* [ ]At ```docker-compose```
-  * [ ]Remove f```ake-s3:s3.amnaxonaws.com``` and the ```fake-s3``` service
-* [ ]login restriction enable
+* [ ] At s3Handler, change ```boto3.client``` to ```boto3.client``` with credentials field
+* [ ] At ```docker-compose```
+  * [ ] Remove f```ake-s3:s3.amnaxonaws.com``` and the ```fake-s3``` service
+* [ ] login restriction enable
 * [ ] Mac /etc/letsencrypt have private in the front
   * should become ```/private/etc/....``` for mac
   * and ```/etc/.....``` for linux
 
 ## TODO
-* [ ]my tweet to news feed page
+* [ ] my tweet to news feed page
 
 ## Tech Stack
 * ```Sngular JS```
