@@ -7,13 +7,15 @@ services:
     container_name: tweetsme
     links:
       - redis:redis
-      # - fake-s3:s3.amazonaws.com
+      - fake-s3:s3.amazonaws.com
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./app:/app/:rw
-      - /etc/letsencrypt:/etc/letsencrypt
+      - /private/etc/letsencrypt:/etc/letsencrypt
+      # /private/etc for mac development
+      # /etc for aws
   redis:
     image: redis
     container_name: my_redis
@@ -21,10 +23,10 @@ services:
     - ./redis:/data
     expose:
       - "6379"
-  # fake-s3:
-  #   image: lphoward/fake-s3
-  #   container_name: my_s3
-  #   ports:
-  #     - "4569:4569"
+  fake-s3:
+    image: lphoward/fake-s3
+    container_name: my_s3
+    expose:
+      - "4569:4569"
 
 

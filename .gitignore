@@ -8,3 +8,4 @@ logger.log
 app/bower_components/*
 /redis
 Icon
+client_secret_*
