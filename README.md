@@ -28,7 +28,9 @@ A twitter clone project
 ## Running the server
 
 ### Run with docker compose
-* ``` docker-compose up --build ```
+* make a ```redis``` directory on the root directory if you want post record to be store on your machine
+* make a let's encrypt certificate with the let's encrypt cli client and put the directory to  ```/etc/letsencrypt```
+* Run the program with docker: ``` docker-compose up --build ```
 
 ### Run individually with docker
 * ```docker build -t tweetsme ./app```
