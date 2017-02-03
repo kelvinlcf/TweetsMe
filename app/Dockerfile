@@ -1,6 +1,5 @@
 FROM tiangolo/uwsgi-nginx-flask:flask
 
-
 # copy over our requirements.txt file
 WORKDIR /app
 COPY requirements.txt /tmp/

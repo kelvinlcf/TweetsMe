@@ -200,8 +200,8 @@ def api_delete_tweets(tweet_id):
 
 
 # get all the news feed from user I followed up to a certain time range
-@app.route(build_api_path('/tweets/following'), methods=['GET'])
-def api_get_tweets_from_all_following():
+@app.route(build_api_path('/user/news_feed'), methods=['GET'])
+def api_get_user_news_feed():
     if auth():
         from_tweet_id = request.args.get('from_tweet_id')
         limit = request.args.get('limit')
@@ -212,6 +212,9 @@ def api_get_tweets_from_all_following():
             return make_response(dict_to_json(feed),200)
     else:
         return make_message_response("not authorized", 401)
+
+
+
 
 # get all the tweets from a particular user
 @app.route(build_api_path('/user/tweets'), methods=['GET'])
@@ -564,10 +567,12 @@ def get_my_news_feed(from_tweet_id=None, limit=None):
     # for all of my followers
     # get all their news feed
     # sort it by time
-    user_id = get_my_user_id()
-    following = user_profile_list_get_all(user_id,'following')
     all_tweets = []
-    for f in following:
+    user_id = get_my_user_id()
+    news_feed_users = user_profile_list_get_all(user_id,'following')
+    news_feed_users.append(user_id)
+
+    for f in news_feed_users:
         tweets = get_all_tweets_json_from_user(f)
         all_tweets.extend(tweets)
 

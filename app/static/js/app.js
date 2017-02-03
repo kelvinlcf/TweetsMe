@@ -648,7 +648,7 @@ myApp.controller('newsFeedCntlr', function($scope, $http, $location, $route, $wi
   angular.element('#newsFeedTweetsLoadingIndicator').addClass('active');
   $http({
     method: 'GET',
-    url: apiBaseUrl+"/tweets/following",
+    url: apiBaseUrl+"/user/news_feed",
     params: {
       'limit': POLL_TWEETS_LIMIT,
     },
@@ -729,7 +729,7 @@ myApp.controller('newsFeedCntlr', function($scope, $http, $location, $route, $wi
     // console.log('load more');
     $http({
       method: 'GET',
-      url: apiBaseUrl+"/tweets/following",
+      url: apiBaseUrl+"/user/news_feed",
       params: {
         'limit': POLL_TWEETS_LIMIT,
         'from_tweet_id': lastTweetId,
