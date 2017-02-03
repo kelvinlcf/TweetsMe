@@ -27,6 +27,6 @@ services:
     image: lphoward/fake-s3
     container_name: my_s3
     expose:
-      - "4569:4569"
+      - "4569"
 
 
