@@ -24,7 +24,7 @@ logger==1.4
 MarkupSafe==0.23
 oauth2client==4.0.0
 packaging==16.8
-py==1.4.32
+py==1.10.0
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
 pycparser==2.17
