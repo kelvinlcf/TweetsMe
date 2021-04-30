@@ -36,7 +36,7 @@ python-dateutil==2.6.0
 python-magic==0.4.12
 redis==2.10.5
 requests==2.12.4
-rsa==3.4.2
+rsa==4.7
 s3transfer==0.1.10
 six==1.10.0
 uritemplate==3.0.0
